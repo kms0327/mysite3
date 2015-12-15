@@ -3,10 +3,10 @@ package com.hanains.mysite.vo;
 public class BoardJoinVo {
 	private long no;
 	private String title;
-	private long mem_no;
-	private String mem_name;
-	private long view_cnt;
-	private String date;
+	private long memNo;
+	private String memName;
+	private long viewCnt;
+	private String regdate;
 	
 	public long getNo() {
 		return no;
@@ -20,34 +20,37 @@ public class BoardJoinVo {
 	public void setTitle(String title) {
 		this.title = title;
 	}
-	public long getMem_no() {
-		return mem_no;
+	
+	
+	public long getMemNo() {
+		return memNo;
 	}
-	public void setMem_no(long mem_no) {
-		this.mem_no = mem_no;
+	public void setMemNo(long memNo) {
+		this.memNo = memNo;
 	}
-	public String getMem_name() {
-		return mem_name;
+	public String getMemName() {
+		return memName;
 	}
-	public void setMem_name(String mem_name) {
-		this.mem_name = mem_name;
+	public void setMemName(String memName) {
+		this.memName = memName;
 	}
-	public long getView_cnt() {
-		return view_cnt;
+	public long getViewCnt() {
+		return viewCnt;
 	}
-	public void setView_cnt(long view_cnt) {
-		this.view_cnt = view_cnt;
+	public void setViewCnt(long viewCnt) {
+		this.viewCnt = viewCnt;
 	}
-	public String getDate() {
-		return date;
+	public String getRegdate() {
+		return regdate;
 	}
-	public void setDate(String date) {
-		this.date = date;
+	public void setRegdate(String regdate) {
+		this.regdate = regdate;
 	}
 	@Override
 	public String toString() {
-		return "BoardJoinVo [no=" + no + ", title=" + title + ", mem_no=" + mem_no + ", mem_name=" + mem_name
-				+ ", view_cnt=" + view_cnt + ", date=" + date + "]";
+		return "BoardJoinVo [no=" + no + ", title=" + title + ", memNo=" + memNo + ", memName=" + memName + ", viewCnt="
+				+ viewCnt + ", regdate=" + regdate + "]";
 	}
+
 	
 }

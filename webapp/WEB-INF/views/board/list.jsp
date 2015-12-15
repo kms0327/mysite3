@@ -39,12 +39,12 @@
 
 						<c:forEach items="${list }" var="vo" varStatus="status">
 							<tr>
-								<td>${totalCount-status.index } </td><!--  ${list.size() } -->
+								<td>${totalCount-(onePage*(indexnum-1))-status.index } </td><!--  ${list.size() } -->
 								<td><a href="${pageContext.request.contextPath}/board/view?no=${vo.no }"
 									onclick="trans()"> ${vo.title} </a></td>
-								<td>${vo.mem_name }</td>
-								<td>${vo.view_cnt }</td>
-								<td>${vo.date }</td>
+								<td> ${vo.memName } </td>
+								<td> ${vo.viewCnt } </td>
+								<td> ${vo.regdate } </td>
 								<td><a href="${pageContext.request.contextPath}/board/delete?no=${vo.no }"
 									class="del">삭제</a></td>
 							</tr>

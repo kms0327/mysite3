@@ -32,7 +32,7 @@ public class BoardController {
 		int onePageViewCount = 3;
 		
 		List<BoardJoinVo> list = boardService.getList(index_num, onePageViewCount);
-		
+		System.out.println("controller : "+list);
 		int row_num = boardService.count();
 		int pageCount = (row_num / onePageViewCount);
 		
@@ -43,6 +43,8 @@ public class BoardController {
 		model.addAttribute("list",list);
 		model.addAttribute("count",pageCount);
 		model.addAttribute("totalCount",row_num);
+		model.addAttribute("onePage",onePageViewCount);
+		model.addAttribute("indexnum", index_num);
 
 		return "/board/list";
 	}

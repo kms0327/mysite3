@@ -27,8 +27,8 @@
 		<div id="content">
 			<div id="guestbook" class="delete-form">
 				<form name="check_form" method="post" action="${pageContext.request.contextPath}/gs/delete">
-					<input type='text' name="ps" value="${password}">
-					<input type='text' name="no" value="${no }">
+					<input type='hidden' name="ps" value="${password}">
+					<input type='hidden' name="no" value="${no }">
 					<label>비밀번호</label>
 					<input type="password" name="password">
 					<input type="button" value="확인"  onclick="check()">
