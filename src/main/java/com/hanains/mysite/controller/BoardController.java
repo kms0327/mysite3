@@ -23,16 +23,21 @@ public class BoardController {
 	private BoardService boardService;
 	 
 	@RequestMapping("/list")
-	public String list(@RequestParam(value="index", required=true, defaultValue="") String no, Model model){
-		
-		
+	public String list(
+			@RequestParam(value="index", required=true, defaultValue="") String no, Model model){
+		// @RequestParam(value="kw", required=true, defaultValue="") String searchKeyword     -- 검색 키워드 넘겨야함
+		/* 
+		 Map<String, Object> map = boardService.listBoard(searchKeyword, page);
+		 model.addAttribute("listData", map);
+		 
+		 return "/board/list";
+		 */
 		//Page Number get
 		String index = no;
 		int index_num = Integer.parseInt(index);
-		int onePageViewCount = 3;
+		int onePageViewCount = 10;
 		
 		List<BoardJoinVo> list = boardService.getList(index_num, onePageViewCount);
-		System.out.println("controller : "+list);
 		int row_num = boardService.count();
 		int pageCount = (row_num / onePageViewCount);
 		
@@ -55,9 +60,7 @@ public class BoardController {
 		String index = no;
 	
 		BoardVo vo = boardService.getmodifylist(Long.parseLong(no));
-		
 		model.addAttribute("vo", vo);
-		System.out.println(index);
 		model.addAttribute("index", index);
 		
 
@@ -77,6 +80,16 @@ public class BoardController {
 		return "/board/modify";
 	}
 	
+	@RequestMapping("/reply")
+	public String reply(@RequestParam(value="no", required=true, defaultValue="") long no, Model model){
+		BoardVo vo = boardService.reply(no);
+		model.addAttribute("vo",vo);
+		
+		System.out.println(vo);
+		return "/board/write";
+
+	}
+
 	@RequestMapping("/update")
 	public String update( @RequestParam(value="no", required=true, defaultValue="") long no,
 			@RequestParam(value="title", required=true, defaultValue="") String tit,
@@ -85,7 +98,6 @@ public class BoardController {
 		
 		String title= tit;
 		String content = cont;
-		System.out.println(no+"    " + title+ "      " + content);
 		boardService.getupdatelist(no, title, content);
 		
 
@@ -100,17 +112,33 @@ public class BoardController {
 	}
 	
 	@RequestMapping("/write")
-	public String write(){
+	public String write(@RequestParam(value="no", required=true, defaultValue="0") long no, Model model
+			,@RequestParam(value="groupNo", required=true, defaultValue="0") long groupNo
+			,@RequestParam(value="orderNo", required=true, defaultValue="0") long orderNo
+			,@RequestParam(value="depth", required=true, defaultValue="0") long depth){
+		
+			model.addAttribute("no",no);
+			model.addAttribute("groupNo",groupNo);
+			model.addAttribute("orderNo",orderNo);
+			model.addAttribute("depth",depth);
+		
 		return "/board/write";
 	}
 	
 	@RequestMapping("/insert")
-	public String insert(@ModelAttribute BoardVo vo, @RequestParam(value="memberno", required=true, defaultValue="") long no){
-	//	BoardDao dao = new BoardDao();
+	public String insert(@ModelAttribute BoardVo vo, 
+			@RequestParam(value="memberno", required=true, defaultValue="") long no,
+			@RequestParam(value="checkNo", required=true,defaultValue="0") long checkNum){
 		
-		boardService.insert(vo, no);
-		//dao.insert(vo);
 		
+		long maxNum = boardService.max();
+		System.out.println(maxNum);
+		if(checkNum != 0){
+			boardService.insert(vo, no, checkNum, maxNum);
+			System.out.println("controller  "+vo+" "+no+" "+checkNum);
+		}else if(checkNum ==0){//처음글쓸때
+			boardService.insert(vo, no, checkNum, maxNum);
+		}
 		return "redirect:/board/list?index=1";
 	}
 }

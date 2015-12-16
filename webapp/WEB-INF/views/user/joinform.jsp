@@ -1,3 +1,6 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!doctype html>
 <html>
@@ -5,6 +8,54 @@
 <title>mysite</title>
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <link href="${pageContext.request.contextPath}/assets/css/user.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="${pageContext.request.contextPath}/assets/js/jquery/jquery-1.9.0.js ">	</script>
+<script>
+$(function(){
+	//change
+	$("#email").change(function(){
+		$("#btn-checkemail").show();
+		$("#image-checked").hide();
+	});
+	
+	$("#btn-checkemail").click(function(){
+		//console.log("clicked");
+		var email = $("#email").val(); 
+		if(email == ""){
+			return;
+		}
+		$.ajax({
+			url:"${pageContext.request.contextPath}/api/user/checkemail",
+			type:"get",
+			dataType:"json",
+			data:"email="+email,
+			contentsType:"application/json",
+			success:function(response){
+				console.log(response);
+				if(response.result == "fail"){
+					console.error(response.message);
+					return;
+				}
+				
+				if(response.data == false){
+					alert("이미 사용중인 이메일입니다");
+					var $email = $("#email");
+					$email.val("");
+					$email.focus();
+					return;
+				}
+				
+				$("#btn-checkemail").hide();
+				$("#image-checked").show();
+				
+			},
+			error:function(jqXHR, status, error){
+				console.error(status+" : "+error);
+			}
+			
+		});
+	});
+});
+</script>
 </head>
 <body>
 	<div id="container">
@@ -17,7 +68,9 @@
 
 					<label class="block-label" for="email">이메일</label>
 					<input id="email" name="email" type="text" value="">
-					<input type="button" value="id 중복체크">
+					<img id="image-checked" src="${pageContext.request.contextPath }/assets/images/checked.png" style="width:12px; display:none">
+					<input id="btn-checkemail" type="button" value="id 중복체크">
+					
 					
 					<label class="block-label">패스워드</label>
 					<input name="password" type="password" value="">
@@ -39,8 +92,11 @@
 				</form>
 			</div>
 		</div>
-		<jsp:include page="/WEB-INF/views/includes/navigation.jsp"></jsp:include>
-		<jsp:include page="/WEB-INF/views/includes/footer.jsp"></jsp:include>
+		<c:import url="/WEB-INF/views/includes/navigation.jsp">
+			<c:param name="menu" value="board" />
+		</c:import>
+
+		<c:import url="/WEB-INF/views/includes/footer.jsp" />
 	</div>
 </body>
 </html>

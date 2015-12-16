@@ -36,19 +36,52 @@
 							<th>작성일</th>
 							<th>&nbsp;</th>
 						</tr>
-
+						 
 						<c:forEach items="${list }" var="vo" varStatus="status">
 							<tr>
-								<td>${totalCount-(onePage*(indexnum-1))-status.index } </td><!--  ${list.size() } -->
+								<td>${totalCount-(onePage*(indexnum-1))-status.index }</td>
+								
+								<td class="title" style="padding-left:${( vo.depth - 1 )*10 }px">
+									<c:if test="${vo.depth >1 }">
+										<img src="${pageContext.request.contextPath }/assets/images/ico-reply.gif">
+									</c:if>
+									<a href="${pageContext.request.contextPath}/board/view?no=${vo.no }" > ${vo.title} </a>
+								</td>
+								
+								<td> ${vo.memName } </td>
+								<td> ${vo.viewCnt } </td>
+								<td> ${vo.regdate } </td>
+								<td>
+									<c:choose>
+										<c:when test='${authUser.no == vo.memNo }'>
+											<a href="${pageContext.request.contextPath}/board/delete?no=${vo.no }" class="del">삭제</a>
+										</c:when>
+									</c:choose>
+								
+								</td>
+							</tr>
+						</c:forEach>
+						
+						  <%-- 
+						<c:forEach items="${list }" var="vo" varStatus="status">
+							<tr>
+								<td>${totalCount-(onePage*(indexnum-1))-status.index } </td>
 								<td><a href="${pageContext.request.contextPath}/board/view?no=${vo.no }"
 									onclick="trans()"> ${vo.title} </a></td>
 								<td> ${vo.memName } </td>
 								<td> ${vo.viewCnt } </td>
 								<td> ${vo.regdate } </td>
-								<td><a href="${pageContext.request.contextPath}/board/delete?no=${vo.no }"
-									class="del">삭제</a></td>
+								<td>
+								  	<c:choose>
+										<c:when test='${authUser.no == vo.memNo }'>									
+											<a href="${pageContext.request.contextPath}/board/delete?no=${vo.no }"
+											class="del">삭제</a>
+										</c:when>
+									</c:choose>
+								</td>
 							</tr>
 						</c:forEach>
+						--%>
 					</table>
 
 				</form>

@@ -5,6 +5,13 @@ public class BoardJoinVo {
 	private String title;
 	private long memNo;
 	private String memName;
+	private long depth;
+	public long getDepth() {
+		return depth;
+	}
+	public void setDepth(long depth) {
+		this.depth = depth;
+	}
 	private long viewCnt;
 	private String regdate;
 	
@@ -48,9 +55,9 @@ public class BoardJoinVo {
 	}
 	@Override
 	public String toString() {
-		return "BoardJoinVo [no=" + no + ", title=" + title + ", memNo=" + memNo + ", memName=" + memName + ", viewCnt="
-				+ viewCnt + ", regdate=" + regdate + "]";
+		return "BoardJoinVo [no=" + no + ", title=" + title + ", memNo=" + memNo + ", memName=" + memName + ", depth="
+				+ depth + ", viewCnt=" + viewCnt + ", regdate=" + regdate + "]";
 	}
-
+	
 	
 }

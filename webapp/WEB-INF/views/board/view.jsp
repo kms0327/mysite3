@@ -8,6 +8,9 @@
 	UserVo authUser = (UserVo) session.getAttribute("authUser");
 	String no = request.getParameter("no");
 %>
+
+
+
 <html>
 <head>
 
@@ -43,13 +46,20 @@
 				
 					<a href="${pageContext.request.contextPath}/board/list?index=1">글목록</a>
 					<c:choose>
-						<c:when test="${empty authUser }">
-						
-						</c:when>
-						<c:otherwise>
+						<c:when test="${authUser.no == vo.memberNo }">
 							<a href="${pageContext.request.contextPath}/board/modify?no=<%=no%>">글수정</a>
-						</c:otherwise>
+						</c:when>
+							<c:when test="${not empty authUser }">
+							<form method="post" action="${pageContext.request.contextPath}/board/write?no=<%=no%>">
+								<input type="hidden" name="groupNo" value="${vo.groupNo }">
+								<input type="hidden" name="orderNo" value="${vo.orderNo }">
+								<input type="hidden" name="depth" value="${vo.depth }">
+								<input type="submit" name="" value="답글">
+							</form>
+							</c:when>
 					</c:choose>
+					
+					
 					
 				</div>
 			</div>

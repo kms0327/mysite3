@@ -15,7 +15,6 @@
 		<div id="content">
 			<div id="board">
 				<form class="board-form" method="post" action="${pageContext.request.contextPath}/board/insert">
-					<input type = "hidden" name = "a" value="insert">
 					<table class="tbl-ex">
 						<tr>
 							<th colspan="2">글쓰기</th>
@@ -36,6 +35,12 @@
 						<a href="${pageContext.request.contextPath}/board/list?index=1">취소</a>
 						<input type="submit" value="등록">
 					</div>
+					<c:if test="${no } == null">
+					</c:if>
+					<input type="hidden" name="checkNo" value="${no }">
+					<input type="hidden" name="groupNo" value="${groupNo }">
+					<input type="hidden" name="orderNo" value="${orderNo }">
+					<input type="hidden" name="depth" value="${depth }">
 				</form>				
 			</div>
 		</div>

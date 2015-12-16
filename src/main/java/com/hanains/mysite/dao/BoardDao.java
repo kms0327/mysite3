@@ -25,24 +25,6 @@ public class BoardDao {
 	@Autowired
 	private SqlSession sqlSession;
 	
-	private Connection getConnection(){
-		Connection connection = null;
-		
-		try{
-			//1.driver loading
-			Class.forName("oracle.jdbc.driver.OracleDriver");
-			//2.db connect
-			String dbUrl = "jdbc:oracle:thin:@localhost:1522:xe";
-			connection = DriverManager.getConnection(dbUrl,"webdb","webdb");
-			
-		}catch(ClassNotFoundException e){
-			System.out.println("드라이버 로딩 실패 - "+e);
-		}catch(SQLException e){
-			System.out.println("에러 - "+e);
-		}
-		return connection;
-	}
-	
 	public List<BoardJoinVo> getJoinlist(){
 		List<BoardJoinVo> list = sqlSession.selectList("board.getjoinlist");
 		return list;
@@ -86,10 +68,24 @@ public class BoardDao {
 		return list;
 	}
 	
-	public void insert(BoardVo vo, long no){
+	public void insert(BoardVo vo, long no, long checkNo, long maxNum){
+		vo.setMemberNo(no);
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("vo", vo);
-		map.put("no", no);
+		map.put("checkNo", checkNo);
+		map.put("maxNum", maxNum);
+		System.out.println("dao "+vo.getGroupNo()+" "+vo.getOrderNo()+" "+vo.getDepth());
+
 		sqlSession.insert("board.insert",map);
+	}
+	
+	public BoardVo reply(long no){
+		BoardVo vo = sqlSession.selectOne("board.reply", no);
+		return vo;
+	}
+	public long max(){
+		long maxNum = sqlSession.selectOne("board.max");
+		System.out.println(maxNum);
+		return maxNum;
 	}
 }

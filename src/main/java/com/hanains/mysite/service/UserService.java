@@ -21,4 +21,9 @@ public class UserService {
 		UserVo authUser = userDao.get(vo.getEmail(), vo.getPassword());
 		return authUser;
 	}
+	
+	public UserVo getUser(String email){
+		UserVo userVo = userDao.get(email);
+		return userVo;
+	}
 }
