@@ -1,12 +1,5 @@
 package com.hanains.mysite.dao;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,7 +10,6 @@ import org.springframework.stereotype.Repository;
 
 import com.hanains.mysite.vo.BoardJoinVo;
 import com.hanains.mysite.vo.BoardVo;
-import com.hanains.mysite.vo.GuestBookVo;
 
 @Repository
 public class BoardDao {
@@ -52,6 +44,25 @@ public class BoardDao {
 		sqlSession.update("board.viewcount",no);
 	}
 	
+	public List<BoardVo> getList( String searchKeyword, Long page, Integer pageSize ) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put( "searchKeyword", searchKeyword );
+		map.put( "page", page );
+		map.put( "pageSize", pageSize );
+		
+		List<BoardVo> list = sqlSession.selectList( "board.selectList", map );
+		
+		return list;
+	}
+	
+	public Long getCount( String searchKeyword ) {
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put( "searchKeyword", searchKeyword );
+		Long count = sqlSession.selectOne( "board.selectCount", map );
+		
+		return count;
+	}	
 	public int count(){
 		int row_num = sqlSession.selectOne("board.count");
 		return row_num;
@@ -74,8 +85,13 @@ public class BoardDao {
 		map.put("vo", vo);
 		map.put("checkNo", checkNo);
 		map.put("maxNum", maxNum);
+		
 		System.out.println("dao "+vo.getGroupNo()+" "+vo.getOrderNo()+" "+vo.getDepth());
-
+		Long groupNo = vo.getGroupNo();
+		if( groupNo != null ) { // 답글인 경우
+			sqlSession.update( "board.updateOrderNo", vo.getOrderNo() );
+		}
+		
 		sqlSession.insert("board.insert",map);
 	}
 	

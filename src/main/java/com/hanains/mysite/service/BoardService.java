@@ -1,6 +1,8 @@
 package com.hanains.mysite.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,7 +18,7 @@ public class BoardService {
 	private final int LIST_PAGESIZE = 5; // 페이지당 게시물 수 
 	private final int LIST_BLOCKSIZE = 5; //아래 페이지 수
 	
-	/*
+	
 	public Map<String, Object> listBoard(String searchKeyword, long page){
 		
 		long totalCount = boardDao.getCount(searchKeyword);
@@ -49,7 +51,8 @@ public class BoardService {
 		
 		
 		return map;
-	}*/
+	}
+	
 	public List<BoardJoinVo> getList(int index, int total){
 		List<BoardJoinVo> list = boardDao.page(index, total);
 		return list;

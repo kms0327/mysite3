@@ -20,13 +20,12 @@
 		<c:import url="/WEB-INF/views/includes/header.jsp"></c:import>
 		<div id="content">
 			<div id="board">
-				<form id="search_form" action="" method="post">
+				<form id="search_form" action="/board/list" method="get">
 
-					<input type="text" id="kwd" name="kwd" value=""> <input
+					<input type="text" name="kw" value=""> <input
 						type="submit" value="찾기">
 				</form>
 
-				<form action="mysite/board" method="post" name="transform">
 					<table class="tbl-ex">
 						<tr>
 							<th>번호</th>
@@ -36,7 +35,7 @@
 							<th>작성일</th>
 							<th>&nbsp;</th>
 						</tr>
-						 
+						<c:set var='count' value='${fn:length(listData.list) }' />
 						<c:forEach items="${list }" var="vo" varStatus="status">
 							<tr>
 								<td>${totalCount-(onePage*(indexnum-1))-status.index }</td>
@@ -57,35 +56,40 @@
 											<a href="${pageContext.request.contextPath}/board/delete?no=${vo.no }" class="del">삭제</a>
 										</c:when>
 									</c:choose>
-								
 								</td>
 							</tr>
 						</c:forEach>
-						
-						  <%-- 
-						<c:forEach items="${list }" var="vo" varStatus="status">
-							<tr>
-								<td>${totalCount-(onePage*(indexnum-1))-status.index } </td>
-								<td><a href="${pageContext.request.contextPath}/board/view?no=${vo.no }"
-									onclick="trans()"> ${vo.title} </a></td>
-								<td> ${vo.memName } </td>
-								<td> ${vo.viewCnt } </td>
-								<td> ${vo.regdate } </td>
-								<td>
-								  	<c:choose>
-										<c:when test='${authUser.no == vo.memNo }'>									
-											<a href="${pageContext.request.contextPath}/board/delete?no=${vo.no }"
-											class="del">삭제</a>
-										</c:when>
-									</c:choose>
-								</td>
-							</tr>
-						</c:forEach>
-						--%>
 					</table>
 
-				</form>
+				
 				<div class="pager">
+					<ul>
+						<c:if test="${listData.prevPage > 0 }">
+							<li class="pg-prev"><a href="${pageContext.request.contextPath }/board/list?p=${listData.prevPage }&kw=${listData.searchKeyword }">◀ 이전</a></li>
+						</c:if>
+						<c:forEach begin="${listData.startPage }" end="${listData.endPage }" var="pageIndex" step="1">
+							<c:choose>
+								<c:when test="${pageIndex > listData.pageCount }">
+									<li class="disable">${pageIndex }</li>
+								</c:when>
+								<c:otherwise>
+									<c:choose>
+										<c:when test="${pageIndex == listData.currentPage }">
+											<li>${pageIndex }</li>
+										</c:when>
+										<c:otherwise>
+											<li><a href="${pageContext.request.contextPath }/board/list?p=${pageIndex }&kw=${listData.searchKeyword }">${pageIndex }</a></li>
+										</c:otherwise>
+									</c:choose>
+								</c:otherwise>
+							</c:choose>
+						</c:forEach>
+						<c:if test="${listData.nextPage > 0 }">
+							<li class="pg-next"><a href="${pageContext.request.contextPath }/board/list?p=${listData.nextPage }&kw=${listData.searchKeyword }">다음 ▶</a></li>
+						</c:if>	
+					</ul>
+				</div>
+				<%-- <div class="pager">
 					<ul>
 						<li class="pg-prev"><a href="#">◀ 이전</a></li>
 						<c:forEach var="test" begin="1" end="${count }" varStatus="status">
@@ -93,7 +97,9 @@
 						</c:forEach>
 						<li class="pg-next"><a href="#">다음 ▶</a></li>
 					</ul>
-				</div>
+				</div> --%>
+				
+				
 				<c:choose>
 					<c:when test="${empty authUser }">
 

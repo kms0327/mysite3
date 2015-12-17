@@ -2,18 +2,18 @@
 <beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:aop="http://www.springframework.org/schema/aop" xmlns="http://www.springframework.org/schema/beans"
     xmlns:p="http://www.springframework.org/schema/p" xmlns:context="http://www.springframework.org/schema/context"
-    xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd
+    xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
     http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
-    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
-    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd"
+    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd"
     xmlns:mvc="http://www.springframework.org/schema/mvc">
-    
     
     <!-- 서블릿 컨테이너의 디폴트 서블릿으로 위임 핸들러 --> <!-- 매핑정보중 스프링이 처리할 수 없는 요청을 디폴트 서블릿 컨테이너로 넘김. 예)css, html 못받아올때 -->
     <mvc:default-servlet-handler/>
     
     <!-- validator, conversionService, messageConverter를 자동 등록 -->
     <mvc:annotation-driven>
+    
     	<mvc:message-converters>
     		<bean class="org.springframework.http.converter.StringHttpMessageConverter">
 				<property name="supportedMediaTypes">
@@ -30,9 +30,15 @@
         			</list>
    				</property>
 			</bean>
-
-			
 		</mvc:message-converters>
+	
+		<!-- argument resolver -->
+		
+     	<!-- <mvc:argument-resolvers>
+     		<mvc:mapping path="/**/"/>
+			
+	 		<bean class="com.hanains.mysite.annotation.AuthUserHandlerMethodArgumentResolver"/>           
+     	</mvc:argument-resolvers> -->
    	</mvc:annotation-driven>
    	
     <context:annotation-config />
@@ -48,4 +54,34 @@
  	   <property name="order" value="1" />
 	</bean>
     
+    <!-- Interceptors -->
+    <mvc:interceptors>
+       <!--  <mvc:interceptor>
+        	<mvc:mapping path="/board/**" /> 
+    	<bean class="com.hanains.mysite.intercepter.MyIntercepter" />
+        </mvc:interceptor>
+
+        <mvc:interceptor>
+        	<mvc:mapping path="/user/**" /> 
+    	<bean class="com.hanains.mysite.intercepter.MyIntercepter2" />
+        </mvc:interceptor> -->
+        
+         <mvc:interceptor>
+        	<mvc:mapping path="/user/login" /> 
+    	<bean class="com.hanains.mysite.intercepter.AuthLoginIntercepter" />
+        </mvc:interceptor>
+        
+         <mvc:interceptor>
+        	<mvc:mapping path="/user/logout" /> 
+    	<bean class="com.hanains.mysite.intercepter.AuthLogoutIntercepter" />
+        </mvc:interceptor>
+        
+       <mvc:interceptor>
+        	<mvc:mapping path="/**" />
+        	<mvc:exclude-mapping path="/asstes/**"/> 
+    		<bean class="com.hanains.mysite.intercepter.AuthIntercepter" />
+        </mvc:interceptor> 
+
+    </mvc:interceptors>
+
 </beans>

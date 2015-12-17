@@ -1,20 +1,18 @@
 package com.hanains.mysite.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.hanains.mysite.dao.BoardDao;
 import com.hanains.mysite.service.BoardService;
 import com.hanains.mysite.vo.BoardJoinVo;
 import com.hanains.mysite.vo.BoardVo;
-import com.hanains.mysite.vo.GuestBookVo;
 
 @Controller
 @RequestMapping("/board")
@@ -24,18 +22,19 @@ public class BoardController {
 	 
 	@RequestMapping("/list")
 	public String list(
-			@RequestParam(value="index", required=true, defaultValue="") String no, Model model){
-		// @RequestParam(value="kw", required=true, defaultValue="") String searchKeyword     -- 검색 키워드 넘겨야함
-		/* 
-		 Map<String, Object> map = boardService.listBoard(searchKeyword, page);
-		 model.addAttribute("listData", map);
+			 Model model,
+			@RequestParam(value="kw", required=true, defaultValue="") String searchKeyword,
+			@RequestParam( value="p", required = true, defaultValue = "1" ) int page){
+		
+		Map<String, Object> map = boardService.listBoard(searchKeyword, page);
+		model.addAttribute("listData", map);
 		 
-		 return "/board/list";
-		 */
+		// return "/board/list";
+		
 		//Page Number get
-		String index = no;
-		int index_num = Integer.parseInt(index);
-		int onePageViewCount = 10;
+		//String index = ;
+		int index_num = page;
+		int onePageViewCount = 3;
 		
 		List<BoardJoinVo> list = boardService.getList(index_num, onePageViewCount);
 		int row_num = boardService.count();
@@ -124,12 +123,16 @@ public class BoardController {
 		
 		return "/board/write";
 	}
-	
-	@RequestMapping("/insert")
+	//로그인 인증 받아야 할 곳에 붙여라.
+	/*@Auth
+	@RequestMapping("/write")
+	public String write(){
+		return "/board/write";
+	}
+*/	@RequestMapping("/insert")
 	public String insert(@ModelAttribute BoardVo vo, 
 			@RequestParam(value="memberno", required=true, defaultValue="") long no,
 			@RequestParam(value="checkNo", required=true,defaultValue="0") long checkNum){
-		
 		
 		long maxNum = boardService.max();
 		System.out.println(maxNum);

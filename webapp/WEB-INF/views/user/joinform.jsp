@@ -59,7 +59,7 @@ $(function(){
 </head>
 <body>
 	<div id="container">
-		<jsp:include page="/WEB-INF/views/includes/header.jsp"></jsp:include>
+		<c:import url="/WEB-INF/views/includes/header.jsp"></c:import>
 		<div id="content">
 			<div id="user">
 				<form id="join-form" name="joinForm" method="post" action="${pageContext.request.contextPath}/user/join">
