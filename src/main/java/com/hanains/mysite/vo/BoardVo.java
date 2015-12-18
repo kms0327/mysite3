@@ -4,11 +4,12 @@ public class BoardVo {
 	private Long no;
 	private String title;
 	private String content;
-	private long memberNo;
-	private long viewCount;
-	private long groupNo;
-	private long orderNo;
-	private long depth;
+	private Long memberNo;
+	private String memberName;
+	private Long viewCount;
+	private Long groupNo;
+	private Long orderNo;
+	private Long depth;
 	private String regdate;
 	public Long getNo() {
 		return no;
@@ -41,6 +42,28 @@ public class BoardVo {
 		this.viewCount = viewCount;
 	}
 	
+	
+	public String getMemberName() {
+		return memberName;
+	}
+	public void setMemberName(String memberName) {
+		this.memberName = memberName;
+	}
+	public void setMemberNo(Long memberNo) {
+		this.memberNo = memberNo;
+	}
+	public void setViewCount(Long viewCount) {
+		this.viewCount = viewCount;
+	}
+	public void setGroupNo(Long groupNo) {
+		this.groupNo = groupNo;
+	}
+	public void setOrderNo(Long orderNo) {
+		this.orderNo = orderNo;
+	}
+	public void setDepth(Long depth) {
+		this.depth = depth;
+	}
 	public String getRegdate() {
 		return regdate;
 	}
@@ -68,8 +91,8 @@ public class BoardVo {
 	@Override
 	public String toString() {
 		return "BoardVo [no=" + no + ", title=" + title + ", content=" + content + ", memberNo=" + memberNo
-				+ ", viewCount=" + viewCount + ", groupNo=" + groupNo + ", orderNo=" + orderNo + ", depth=" + depth
-				+ ", regdate=" + regdate + "]";
+				+ ", memberName=" + memberName + ", viewCount=" + viewCount + ", groupNo=" + groupNo + ", orderNo="
+				+ orderNo + ", depth=" + depth + ", regdate=" + regdate + "]";
 	}
 	
 	

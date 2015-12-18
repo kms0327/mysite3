@@ -24,31 +24,32 @@ public class BoardController {
 	public String list(
 			 Model model,
 			@RequestParam(value="kw", required=true, defaultValue="") String searchKeyword,
-			@RequestParam( value="p", required = true, defaultValue = "1" ) int page){
+			@RequestParam( value="p", required = true, defaultValue = "1" ) long page){
 		
 		Map<String, Object> map = boardService.listBoard(searchKeyword, page);
+		System.out.println(map);
 		model.addAttribute("listData", map);
 		 
 		// return "/board/list";
 		
 		//Page Number get
 		//String index = ;
-		int index_num = page;
-		int onePageViewCount = 3;
+		//int index_num = page;
+		//int onePageViewCount = 3;
 		
-		List<BoardJoinVo> list = boardService.getList(index_num, onePageViewCount);
-		int row_num = boardService.count();
-		int pageCount = (row_num / onePageViewCount);
+		//List<BoardJoinVo> list = boardService.getList(index_num, onePageViewCount);
+		//int row_num = boardService.count();
+		//int pageCount = (row_num / onePageViewCount);
 		
-		if(row_num % onePageViewCount != 0 ){
-			pageCount = pageCount + 1;
-		}
-		
-		model.addAttribute("list",list);
-		model.addAttribute("count",pageCount);
-		model.addAttribute("totalCount",row_num);
-		model.addAttribute("onePage",onePageViewCount);
-		model.addAttribute("indexnum", index_num);
+		//if(row_num % onePageViewCount != 0 ){
+		//	pageCount = pageCount + 1;
+		//}
+	//	
+	//	model.addAttribute("list",list);
+	//	model.addAttribute("count",pageCount);
+	//	model.addAttribute("totalCount",row_num);
+	//	model.addAttribute("onePage",onePageViewCount);
+	//	model.addAttribute("indexnum", index_num);
 
 		return "/board/list";
 	}

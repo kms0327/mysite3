@@ -8,6 +8,8 @@
     http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd"
     xmlns:mvc="http://www.springframework.org/schema/mvc">
     
+    
+    
     <!-- 서블릿 컨테이너의 디폴트 서블릿으로 위임 핸들러 --> <!-- 매핑정보중 스프링이 처리할 수 없는 요청을 디폴트 서블릿 컨테이너로 넘김. 예)css, html 못받아올때 -->
     <mvc:default-servlet-handler/>
     

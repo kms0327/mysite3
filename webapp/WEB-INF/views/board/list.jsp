@@ -36,9 +36,9 @@
 							<th>&nbsp;</th>
 						</tr>
 						<c:set var='count' value='${fn:length(listData.list) }' />
-						<c:forEach items="${list }" var="vo" varStatus="status">
+						<c:forEach items="${listData.list }" var="vo" varStatus="status">
 							<tr>
-								<td>${totalCount-(onePage*(indexnum-1))-status.index }</td>
+								<td>${listData.firstItemIndex - status.index }</td>
 								
 								<td class="title" style="padding-left:${( vo.depth - 1 )*10 }px">
 									<c:if test="${vo.depth >1 }">
@@ -47,12 +47,12 @@
 									<a href="${pageContext.request.contextPath}/board/view?no=${vo.no }" > ${vo.title} </a>
 								</td>
 								
-								<td> ${vo.memName } </td>
-								<td> ${vo.viewCnt } </td>
+								<td> ${vo.memberName } </td>
+								<td> ${vo.viewCount } </td>
 								<td> ${vo.regdate } </td>
 								<td>
 									<c:choose>
-										<c:when test='${authUser.no == vo.memNo }'>
+										<c:when test='${authUser.no == memberNo }'>
 											<a href="${pageContext.request.contextPath}/board/delete?no=${vo.no }" class="del">삭제</a>
 										</c:when>
 									</c:choose>
@@ -75,7 +75,7 @@
 								<c:otherwise>
 									<c:choose>
 										<c:when test="${pageIndex == listData.currentPage }">
-											<li>${pageIndex }</li>
+												 <li>${pageIndex } </li>
 										</c:when>
 										<c:otherwise>
 											<li><a href="${pageContext.request.contextPath }/board/list?p=${pageIndex }&kw=${listData.searchKeyword }">${pageIndex }</a></li>
@@ -89,16 +89,6 @@
 						</c:if>	
 					</ul>
 				</div>
-				<%-- <div class="pager">
-					<ul>
-						<li class="pg-prev"><a href="#">◀ 이전</a></li>
-						<c:forEach var="test" begin="1" end="${count }" varStatus="status">
-							<li><a href="${pageContext.request.contextPath}/board/list?index=${status.index }">${status.index }</a></li>
-						</c:forEach>
-						<li class="pg-next"><a href="#">다음 ▶</a></li>
-					</ul>
-				</div> --%>
-				
 				
 				<c:choose>
 					<c:when test="${empty authUser }">

@@ -19,36 +19,43 @@ public class BoardService {
 	private final int LIST_BLOCKSIZE = 5; //아래 페이지 수
 	
 	
-	public Map<String, Object> listBoard(String searchKeyword, long page){
+	public Map<String, Object> listBoard( String searchKeyword, Long page ){
+
+		//1. calculate pager's basic data 
+		long totalCount = boardDao.getCount( searchKeyword );
+		long pageCount = (long)Math.ceil( (double)totalCount / LIST_PAGESIZE );
+		long blockCount = (long)Math.ceil( (double)pageCount / LIST_BLOCKSIZE );
+		long currentBlock = (long)Math.ceil( (double)page / LIST_BLOCKSIZE ); 
 		
-		long totalCount = boardDao.getCount(searchKeyword);
-		long pageCount = (long)Math.ceil((double) totalCount / LIST_PAGESIZE);
-		long blockCount = (long)Math.ceil((double) pageCount / LIST_BLOCKSIZE);
-		long currentBlock = (long)Math.ceil((double)page/LIST_BLOCKSIZE);
-		
-		if(page<1){
+		//2. page validation
+		if( page < 1 ) {
 			page = 1L;
 			currentBlock = 1;
-		}else if(page>pageCount){
+		} else if( page > pageCount ) {
 			page = pageCount;
-			currentBlock = (int)Math.ceil((double)page/LIST_BLOCKSIZE);
+			currentBlock = (int)Math.ceil( (double)page / LIST_BLOCKSIZE );
 		}
 		
-		long startPage = (currentBlock == 0 )? 1: (currentBlock-1)*LIST_BLOCKSIZE +1;
-		long endPage = (startPage -1)+LIST_BLOCKSIZE;
-		long prevPage = (currentBlock > 1) ?(currentBlock -1) * LIST_BLOCKSIZE : 0;
-		long nextPage = (currentBlock < blockCount)?currentBlock*LIST_BLOCKSIZE+1:0;
+		//3. calculate pager's data
+		long startPage = (currentBlock == 0 ) ? 1 : ( currentBlock - 1 ) * LIST_BLOCKSIZE + 1;
+		long endPage = ( startPage - 1 ) + LIST_BLOCKSIZE;
+		long prevPage = ( currentBlock > 1 ) ? ( currentBlock - 1 ) * LIST_BLOCKSIZE : 0;
+		long nextPage = ( currentBlock < blockCount ) ? currentBlock * LIST_BLOCKSIZE + 1 : 0;
+
+		//4. fetch list
+		List<BoardVo> list = boardDao.getList( searchKeyword, page, LIST_PAGESIZE );
 		
-		List<BoardVo> list= boardDao.getList(searchKeyword, page, LIST_PAGESIZE);
-		
-		Map<String,Object> map = new HashMap<String,Object>();
-		map.put("list", list);
-		map.put("searchKeyWord", searchKeyword);
-		map.put("firstItemIndex", totalCount-(page-1)*LIST_PAGESIZE);
-		map.put("currentPage", page);
-		map.put("startPage", startPage);
-		map.put("endPage", endPage);
-		
+		//5. pack all information of list
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put( "list", list );
+		map.put( "searchKeyword", searchKeyword );
+		map.put( "firstItemIndex", totalCount - ( page - 1 ) * LIST_PAGESIZE );
+		map.put( "currentPage", page );
+		map.put( "startPage", startPage );
+		map.put( "endPage", endPage );
+		map.put( "pageCount", pageCount );
+		map.put( "prevPage", prevPage );
+		map.put( "nextPage", nextPage );
 		
 		return map;
 	}
@@ -65,7 +72,7 @@ public class BoardService {
 	
 	public BoardVo getmodifylist(long no){
 		BoardVo vo = boardDao.getmodifylist(no);
-		boardDao.viewCount(no);
+		//boardDao.viewCount(no);
 		return vo;
 	}
 	

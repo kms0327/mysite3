@@ -46,7 +46,7 @@ public class BoardDao {
 	
 	public List<BoardVo> getList( String searchKeyword, Long page, Integer pageSize ) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put( "searchKeyword", searchKeyword );
+		map.put( "searchKeyword", "서블릿");
 		map.put( "page", page );
 		map.put( "pageSize", pageSize );
 		

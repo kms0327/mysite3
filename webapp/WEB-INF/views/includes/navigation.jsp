@@ -7,17 +7,17 @@
 			<ul>
 			<c:choose>
 				<c:when test="${param.menu == 'main' }">
-					<li class="selected"><a href="${pageContext.request.contextPath}/Main">김문성</a></li>
+					<li class="selected"><a href="${pageContext.request.contextPath}/">김문성</a></li>
 					<li><a href="${pageContext.request.contextPath}/gs/list">방명록</a></li>
 					<li><a href="${pageContext.request.contextPath}/board/list?p=1">게시판</a></li>
 				</c:when>	
 				<c:when test="${param.menu == 'guest' }">
-					<li ><a href="${pageContext.request.contextPath}/Main">김문성</a></li>
+					<li ><a href="${pageContext.request.contextPath}/">김문성</a></li>
 					<li class="selected"><a href="${pageContext.request.contextPath}/gs/list" >방명록</a></li>
 					<li><a href="${pageContext.request.contextPath}/board/list?p=1">게시판</a></li>
 				</c:when>	
 				<c:when test="${param.menu == 'board' }">
-					<li><a href="${pageContext.request.contextPath}/Main">김문성</a></li>
+					<li><a href="${pageContext.request.contextPath}/">김문성</a></li>
 					<li><a href="${pageContext.request.contextPath}/gs/list">방명록</a></li>
 					<li class="selected"><a href="${pageContext.request.contextPath}/board/list?p=1">게시판</a></li>
 				</c:when>	
