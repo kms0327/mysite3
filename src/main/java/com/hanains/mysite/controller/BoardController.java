@@ -1,6 +1,5 @@
 package com.hanains.mysite.controller;
 
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,8 +9,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.hanains.mysite.annotation.Auth;
 import com.hanains.mysite.service.BoardService;
-import com.hanains.mysite.vo.BoardJoinVo;
 import com.hanains.mysite.vo.BoardVo;
 
 @Controller
@@ -30,27 +29,6 @@ public class BoardController {
 		System.out.println(map);
 		model.addAttribute("listData", map);
 		 
-		// return "/board/list";
-		
-		//Page Number get
-		//String index = ;
-		//int index_num = page;
-		//int onePageViewCount = 3;
-		
-		//List<BoardJoinVo> list = boardService.getList(index_num, onePageViewCount);
-		//int row_num = boardService.count();
-		//int pageCount = (row_num / onePageViewCount);
-		
-		//if(row_num % onePageViewCount != 0 ){
-		//	pageCount = pageCount + 1;
-		//}
-	//	
-	//	model.addAttribute("list",list);
-	//	model.addAttribute("count",pageCount);
-	//	model.addAttribute("totalCount",row_num);
-	//	model.addAttribute("onePage",onePageViewCount);
-	//	model.addAttribute("indexnum", index_num);
-
 		return "/board/list";
 	}
 	
@@ -67,6 +45,7 @@ public class BoardController {
 		return "/board/view";
 	}
 	
+	@Auth
 	@RequestMapping("/modify")
 	public String modify(@RequestParam(value="no", required=true, defaultValue="") String no, Model model){
 		
@@ -80,6 +59,7 @@ public class BoardController {
 		return "/board/modify";
 	}
 	
+	@Auth
 	@RequestMapping("/reply")
 	public String reply(@RequestParam(value="no", required=true, defaultValue="") long no, Model model){
 		BoardVo vo = boardService.reply(no);
@@ -89,7 +69,8 @@ public class BoardController {
 		return "/board/write";
 
 	}
-
+	
+	@Auth
 	@RequestMapping("/update")
 	public String update( @RequestParam(value="no", required=true, defaultValue="") long no,
 			@RequestParam(value="title", required=true, defaultValue="") String tit,
@@ -111,6 +92,7 @@ public class BoardController {
 		return "redirect:/board/list?index=1";
 	}
 	
+	@Auth
 	@RequestMapping("/write")
 	public String write(@RequestParam(value="no", required=true, defaultValue="0") long no, Model model
 			,@RequestParam(value="groupNo", required=true, defaultValue="0") long groupNo
@@ -124,13 +106,8 @@ public class BoardController {
 		
 		return "/board/write";
 	}
-	//로그인 인증 받아야 할 곳에 붙여라.
-	/*@Auth
-	@RequestMapping("/write")
-	public String write(){
-		return "/board/write";
-	}
-*/	@RequestMapping("/insert")
+	
+	@RequestMapping("/insert")
 	public String insert(@ModelAttribute BoardVo vo, 
 			@RequestParam(value="memberno", required=true, defaultValue="") long no,
 			@RequestParam(value="checkNo", required=true,defaultValue="0") long checkNum){

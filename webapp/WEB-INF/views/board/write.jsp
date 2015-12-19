@@ -5,6 +5,16 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+
+<script type="text/javascript">
+	function check(){
+		 if(document.check_form.title.value == "" || document.check_form.content.value == ""){
+			alert("제목과 내용을 입력해주세요");
+			return false;
+		} 
+	}
+	
+</script>
 <title>mysite</title>
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <link href="${pageContext.request.contextPath}/assets/css/board.css" rel="stylesheet" type="text/css">
@@ -14,7 +24,7 @@
 		<c:import url="/WEB-INF/views/includes/header.jsp"></c:import>
 		<div id="content">
 			<div id="board">
-				<form class="board-form" method="post" action="${pageContext.request.contextPath}/board/insert">
+				<form class="board-form" name="check_form" method="post" action="${pageContext.request.contextPath}/board/insert">
 					<table class="tbl-ex">
 						<tr>
 							<th colspan="2">글쓰기</th>
@@ -33,7 +43,7 @@
 					</table>
 					<div class="bottom">
 						<a href="${pageContext.request.contextPath}/board/list?index=1">취소</a>
-						<input type="submit" value="등록">
+						<input type="submit" value="등록" onclick="return check()">
 					</div>
 					<c:if test="${no } == null">
 					</c:if>

@@ -52,7 +52,7 @@
 								<td> ${vo.regdate } </td>
 								<td>
 									<c:choose>
-										<c:when test='${authUser.no == memberNo }'>
+										<c:when test='${authUser.no == vo.memberNo }'>
 											<a href="${pageContext.request.contextPath}/board/delete?no=${vo.no }" class="del">삭제</a>
 										</c:when>
 									</c:choose>
